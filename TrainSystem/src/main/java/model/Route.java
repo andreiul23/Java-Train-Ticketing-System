@@ -8,14 +8,16 @@ public class Route {
     private Station arrivalStation;
     private LocalDateTime departureTime;
     private LocalDateTime arrivalTime;
+    private double basePrice;
 
-    public Route(String routeId, Train train, Station departureStation, Station arrivalStation, LocalDateTime departureTime, LocalDateTime arrivalTime) {
+    public Route(String routeId, Train train, Station departureStation, Station arrivalStation, LocalDateTime departureTime, LocalDateTime arrivalTime, double basePrice) {
         this.routeId = routeId;
         this.train = train;
         this.departureStation = departureStation;
         this.arrivalStation = arrivalStation;
         this.departureTime = departureTime;
         this.arrivalTime = arrivalTime;
+        this.basePrice = basePrice;
     }
 
     public String getRouteId() { return routeId; }
@@ -24,4 +26,5 @@ public class Route {
     public Station getArrivalStation() { return arrivalStation; }
     public LocalDateTime getDepartureTime() { return departureTime; }
     public LocalDateTime getArrivalTime() { return arrivalTime; }
+    public double getBasePrice() { return basePrice; }
 }
