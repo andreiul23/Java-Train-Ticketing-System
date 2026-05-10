@@ -19,4 +19,12 @@ public class TrainRepository {
     public Collection<Train> getAllTrains() {
         return trains.values();
     }
+
+    public void removeTrain(String id) {
+        trains.remove(id);
+    }
+
+    public void modifyTrain(Train train) {
+        trains.put(train.getId(), train);
+    }
 }

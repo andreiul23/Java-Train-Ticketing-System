@@ -19,4 +19,12 @@ public class StationRepository {
     public Collection<Station> getAllStations() {
         return stations.values();
     }
+
+    public void removeStation(String id) {
+        stations.remove(id);
+    }
+
+    public void modifyStation(Station station) {
+        stations.put(station.getId(), station);
+    }
 }
