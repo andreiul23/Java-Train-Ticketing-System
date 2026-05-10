@@ -12,7 +12,7 @@ public class RouteRepository {
     }
 
     public List<Route> getAllRoutes() {
-        return routes;
+        return new ArrayList<>(routes);
     }
 
     public void removeRoute(String routeId) {

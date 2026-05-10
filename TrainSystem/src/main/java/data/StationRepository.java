@@ -1,6 +1,8 @@
 package data;
 
 import model.Station;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Collection;
@@ -17,7 +19,7 @@ public class StationRepository {
     }
 
     public Collection<Station> getAllStations() {
-        return stations.values();
+        return new ArrayList<>(stations.values());
     }
 
     public void removeStation(String id) {

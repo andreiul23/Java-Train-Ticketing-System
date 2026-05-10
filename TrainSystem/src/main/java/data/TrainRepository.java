@@ -1,6 +1,8 @@
 package data;
 
 import model.Train;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Collection;
@@ -17,7 +19,7 @@ public class TrainRepository {
     }
 
     public Collection<Train> getAllTrains() {
-        return trains.values();
+        return new ArrayList<>(trains.values());
     }
 
     public void removeTrain(String id) {

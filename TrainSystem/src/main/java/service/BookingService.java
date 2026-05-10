@@ -16,7 +16,7 @@ public class BookingService {
         this.emailService = emailService;
     }
 
-    public Booking bookTicket(String customerEmail, Route route, int numberOfTickets) throws OverbookedException {
+    public synchronized Booking bookTicket(String customerEmail, Route route, int numberOfTickets) throws OverbookedException {
         int currentlyBooked = 0;
 
         for (Booking existingBooking : bookingRepository.getAllBookings()) {
@@ -28,7 +28,7 @@ public class BookingService {
         int availableCapacity = route.getTrain().getCapacity() - currentlyBooked;
 
         if (numberOfTickets > availableCapacity) {
-            throw new OverbookedException("Cannot book " + numberOfTickets + " tickets. Only " + availableCapacity + " seats available on this route.");
+            throw new OverbookedException("Only " + availableCapacity + " seats available.");
         }
 
         String bookingId = UUID.randomUUID().toString();
@@ -38,5 +38,37 @@ public class BookingService {
         emailService.sendBookingConfirmation(customerEmail, route.getRouteId(), numberOfTickets);
 
         return newBooking;
+    }
+
+    public synchronized void cancelBooking(String bookingId) {
+        Booking bookingToCancel = null;
+        for (Booking b : bookingRepository.getAllBookings()) {
+            if (b.getBookingId().equals(bookingId)) {
+                bookingToCancel = b;
+                break;
+            }
+        }
+
+        if (bookingToCancel != null) {
+            int freedSeats = bookingToCancel.getNumberOfTickets();
+            bookingRepository.removeBooking(bookingId);
+            System.out.println("Booking " + bookingId + " has been cancelled. Freed " + freedSeats + " seats.");
+
+            Route route = bookingToCancel.getRoute();
+
+            while (freedSeats > 0 && !route.getWaitlist().isEmpty()) {
+                String nextInLine = route.popFromWaitlist();
+                if (nextInLine != null) {
+                    try {
+                        bookTicket(nextInLine, route, 1);
+                        System.out.println("Waitlist triggered! Auto-booked 1 seat for " + nextInLine);
+                        freedSeats--;
+                    } catch (OverbookedException e) {
+                    }
+                }
+            }
+        } else {
+            System.out.println("Booking ID not found.");
+        }
     }
 }
