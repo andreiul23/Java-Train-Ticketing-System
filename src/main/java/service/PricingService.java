@@ -25,15 +25,15 @@ public class PricingService {
 
         double capacityPercentage = (double) bookedSeats / route.getTrain().getCapacity();
 
+        // If the train is more than 90% full, increase price by 50%
+        if (capacityPercentage > 0.90) {
+            currentPrice *= 1.50;
+        }
         // If the train is more than 70% full, increase price by 30%
-        if (capacityPercentage > 0.70) {
+        else if (capacityPercentage > 0.70) {
             currentPrice *= 1.30;
         }
 
-        // If the train is more than 90% full, increase price by 50%
-        else if (capacityPercentage > 0.90) {
-            currentPrice *= 1.50;
-        }
         long hoursUntilDeparture = ChronoUnit.HOURS.between(LocalDateTime.now(), route.getDepartureTime());
         // Last-minute booking (under 24 hours) costs 20% more
         if (hoursUntilDeparture < 24 && hoursUntilDeparture > 0) {

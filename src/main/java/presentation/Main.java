@@ -2,6 +2,7 @@ package presentation;
 
 import exception.NoRouteFoundException;
 import exception.OverbookedException;
+import model.Booking;
 import model.Route;
 import model.Station;
 import model.Train;
@@ -103,10 +104,11 @@ public class Main {
             System.out.print("How many tickets do you want to book? ");
             int tickets = Integer.parseInt(scanner.nextLine());
 
-            bookingService.bookTicket(email, selectedRoute, tickets);
+            Booking newBooking = bookingService.bookTicket(email, selectedRoute, tickets);
 
             double totalCost = currentTicketPrice * tickets;
             System.out.println("Booking successful! Total charged: $" + totalCost);
+            System.out.println("Your Booking ID is: " + newBooking.getBookingId());
 
         } catch (NoRouteFoundException e) {
             System.out.println("\n[ERROR]: " + e.getMessage());

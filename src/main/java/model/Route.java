@@ -22,7 +22,7 @@ public class Route {
         this.departureTime = departureTime;
         this.arrivalTime = arrivalTime;
         this.basePrice = basePrice;
-        this.waitlist = new LinkedList<>();
+        this.waitlist = new java.util.concurrent.ConcurrentLinkedQueue<>();
     }
 
     public String getRouteId() { return routeId; }
